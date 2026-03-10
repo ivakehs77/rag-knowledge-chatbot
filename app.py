@@ -14,8 +14,106 @@ INDEX_DIR = Path("vector_store")
 
 
 st.set_page_config(page_title="RAG Knowledge Chatbot", page_icon="📚", layout="wide")
-st.title("📚 RAG Knowledge Chatbot")
-st.write("Upload your docs, build index, then ask grounded questions.")
+st.markdown(
+    """
+    <style>
+        .stApp {
+            background:
+                radial-gradient(circle at top left, rgba(255, 184, 108, 0.18), transparent 28%),
+                radial-gradient(circle at top right, rgba(86, 204, 242, 0.16), transparent 24%),
+                linear-gradient(180deg, #07111f 0%, #0d1728 100%);
+        }
+        [data-testid="stSidebar"] {
+            background: linear-gradient(180deg, rgba(7, 17, 31, 0.95) 0%, rgba(13, 23, 40, 0.92) 100%);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        [data-testid="stSidebar"] > div:first-child {
+            padding-top: 1.8rem;
+        }
+        .block-container {
+            max-width: 1080px;
+            padding-top: 2.2rem;
+            padding-bottom: 2rem;
+        }
+        .hero-card {
+            text-align: center;
+            padding: 2.2rem 1.5rem 1.6rem;
+            margin-bottom: 1.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            background: rgba(9, 18, 32, 0.72);
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(12px);
+        }
+        .hero-title {
+            margin: 0;
+            font-size: 3rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            color: #f8fafc;
+        }
+        .hero-subtitle {
+            margin: 0.75rem 0 0;
+            font-size: 1.05rem;
+            color: #cbd5e1;
+        }
+        .hero-credit {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: #f6ad55;
+        }
+        .content-card {
+            padding: 1.4rem 1.2rem 1rem;
+            border-radius: 22px;
+            background: rgba(10, 19, 34, 0.72);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: 0 20px 44px rgba(0, 0, 0, 0.28);
+        }
+        .stButton > button {
+            width: 100%;
+            border-radius: 14px;
+            border: 1px solid rgba(246, 173, 85, 0.5);
+            background: linear-gradient(135deg, #f6ad55 0%, #dd6b20 100%);
+            color: #08111f;
+            font-weight: 700;
+            box-shadow: 0 12px 28px rgba(221, 107, 32, 0.26);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .stButton > button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 34px rgba(221, 107, 32, 0.34);
+            color: #08111f;
+            border-color: rgba(246, 173, 85, 0.72);
+        }
+        .stTextInput > div > div > input {
+            border-radius: 14px;
+            background: rgba(15, 23, 42, 0.92);
+            border: 1px solid rgba(148, 163, 184, 0.2);
+        }
+        .stSlider [data-baseweb="slider"] {
+            padding-top: 0.4rem;
+            padding-bottom: 0.4rem;
+        }
+        .stExpander {
+            border: 1px solid rgba(148, 163, 184, 0.16);
+            border-radius: 16px;
+            background: rgba(15, 23, 42, 0.45);
+        }
+        .stAlert {
+            border-radius: 16px;
+        }
+    </style>
+    <div class="hero-card">
+        <h1 class="hero-title">RAG Knowledge Chatbot</h1>
+        <p class="hero-subtitle">Upload your docs, build the index, and ask grounded questions with visible evidence.</p>
+        <div class="hero-credit">Made by IVAKEsh</div>
+    </div>
+    <div class="content-card">
+    """,
+    unsafe_allow_html=True,
+)
 
 if not os.getenv("OPENAI_API_KEY"):
     st.error("OPENAI_API_KEY not found. Add it to your .env file.")
@@ -86,3 +184,5 @@ if st.button("Ask") and question.strip():
                     title = f"{i}. {chunk['source']} (page {chunk['page']}, similarity {chunk['score']})"
                     with st.expander(title):
                         st.write(chunk["text"])
+
+st.markdown("</div>", unsafe_allow_html=True)

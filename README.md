@@ -2,6 +2,20 @@
 
 This project builds a document-grounded chatbot using Retrieval-Augmented Generation (RAG).
 
+## Screenshots
+
+Add your UI captures to `assets/` with these names:
+
+- `assets/ui-home.png`
+- `assets/ui-sidebar-success.png`
+- `assets/ui-answer-view.png`
+
+Then the README will render them automatically:
+
+![Home UI](assets/ui-home.png)
+![Sidebar Success State](assets/ui-sidebar-success.png)
+![Answer View](assets/ui-answer-view.png)
+
 ## What it does
 
 - Ingests your documents (`.pdf`, `.txt`, `.md`)
@@ -18,6 +32,7 @@ This project builds a document-grounded chatbot using Retrieval-Augmented Genera
 
 ```text
 rag-knowledge-chatbot
+├── assets
 ├── data
 │   └── uploads
 ├── vector_store
