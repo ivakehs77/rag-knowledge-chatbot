@@ -1,4 +1,5 @@
 import argparse
+import os
 import pickle
 from dataclasses import dataclass
 from pathlib import Path
@@ -78,8 +79,8 @@ def batched(items: list[str], batch_size: int) -> Iterable[list[str]]:
         yield items[i : i + batch_size]
 
 
-def embed_texts(texts: list[str], model: str) -> np.ndarray:
-    client = OpenAI()
+def embed_texts(texts: list[str], model: str, api_key: str | None = None) -> np.ndarray:
+    client = OpenAI(api_key=api_key or os.getenv("OPENAI_API_KEY"))
     vectors: list[list[float]] = []
 
     for batch in batched(texts, batch_size=100):
@@ -111,13 +112,13 @@ def save_index(vectors: np.ndarray, metadata: list[dict], out_dir: Path) -> None
         pickle.dump(metadata, f)
 
 
-def run_ingestion(data_dir: Path, out_dir: Path, embedding_model: str) -> int:
+def run_ingestion(data_dir: Path, out_dir: Path, embedding_model: str, api_key: str | None = None) -> int:
     chunks = load_documents(data_dir)
     if not chunks:
         return 0
 
     texts = [c.text for c in chunks]
-    vectors = embed_texts(texts, model=embedding_model)
+    vectors = embed_texts(texts, model=embedding_model, api_key=api_key)
 
     metadata = [
         {"text": c.text, "source": c.source, "page": c.page}

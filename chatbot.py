@@ -20,13 +20,13 @@ class RetrievalResult:
 
 
 class RAGChatbot:
-    def __init__(self, index_dir: str = "vector_store"):
+    def __init__(self, index_dir: str = "vector_store", api_key: str | None = None):
         self.index_dir = Path(index_dir)
         self.index = faiss.read_index(str(self.index_dir / "docs.index"))
         with (self.index_dir / "metadata.pkl").open("rb") as f:
             self.metadata = pickle.load(f)
 
-        self.client = OpenAI()
+        self.client = OpenAI(api_key=api_key or os.getenv("OPENAI_API_KEY"))
         self.embedding_model = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
         self.chat_model = os.getenv("CHAT_MODEL", "gpt-4o-mini")
 
